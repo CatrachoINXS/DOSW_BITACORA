@@ -1,8 +1,4 @@
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap');
-</style>
-
-<div style="font-family: 'JetBrains Mono', monospace; font-weight: 600;">
+<div style="font-family: 'JetBrains Mono', 'Fira Code', Consolas, monospace; font-weight: 500;">
 
 # **Bitácora**
 
