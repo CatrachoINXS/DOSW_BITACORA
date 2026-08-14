@@ -1,5 +1,3 @@
-<div style="font-family: 'JetBrains Mono', 'Fira Code', Consolas, monospace; font-weight: 500;">
-
 # **Bitácora**
 
 # SEMANA No 1 — DOSW Manejo de Streams 
@@ -43,5 +41,3 @@ public class Ejercicio1 {
 ![Ejecución del Ejercicio 1](./src/main/dosw/semana_1/streams/captura_ejercicio_1.png)
 
 **Explicación:** Primero se convierte la lista a un stream, usando `numeros.stream()`, despues aplicamos dos filter, uno para que los números sean mayores a 10, y otros para que sean pares. Finalmente, se convierte en una lista, con el método `toList()` y se imprime.
-
-</div>
