@@ -12,6 +12,5 @@ public class Ejercicio1 {
             .toList();
 
         System.out.println(mayoresADiez);
-}
-    
+    }
 }
