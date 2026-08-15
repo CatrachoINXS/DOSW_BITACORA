@@ -21,4 +21,8 @@ public class User {
     public boolean isActive() {
         return active;
     }
+
+    public int getAge() {
+        return age;
+    }
 }

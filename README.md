@@ -149,3 +149,34 @@ public class Ejercicio3 {
 ![Ejecución del Ejercicio 1](./src/main/dosw/semana_1/streams/captura_ejercicio_3.png)
 
 **Explicación:** Para ordenar los usuarios activos se convierte la lista de usuarios a un Stream, despues se filtran los activos, y mediante el método `map()` obtenemos el nombre de cada usuario y lo transformamos en mayusculas, ordenamos usando `sorted()` y lo convertimos a lista usando `toList()`.
+
+---
+
+### Ejercicio 04 — Personas mayores de edad 
+
+Dado un listado de Usuarios y utilizando los mismo atributos anteriores, filtrar las personas mayores de edad y obtener sus nombres.
+
+**Código implementado:**
+
+```java
+public class Ejercicio4 {
+    
+    public static void main(String[] args) {
+        
+        List<User> users = List.of(new User(1, "Cristian", 15, false),
+            new User(2, "Camilo", 18, true),
+            new User(3, "Pathfinder", 16, true),
+            new User(4, "Mirage", 21, true));
+
+        users.stream()
+            .filter(u -> u.getAge() >= 18)
+            .map(u -> u.getName())
+            .forEach(System.out::println);
+    }
+}
+```
+**Captura de ejecución:**
+
+![Ejecución del Ejercicio 1](./src/main/dosw/semana_1/streams/captura_ejercicio_4.png)
+
+**Explicación:** Se convierte la lista a un stream, aplicamos un `filter()` para los usuarios con edad mayor o igual a 18, usamos map para obtener el nombre e imprimimos cada uno.
