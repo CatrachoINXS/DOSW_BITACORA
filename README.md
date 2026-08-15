@@ -370,3 +370,37 @@ public class Ejercicio3 {
 
 **Explicación:** Se usa `reduce()` junto con `Integer::sum` para sumar los elementos de la lista.
 
+---
+
+### Ejercicio 04 — Pokémon Alfa
+
+Encontrar el Pokémon con el nivel más alto dentro del equipo.  
+
+**Código implementado:**
+
+```java
+public class Ejercicio4 {
+    
+    public static void main(String[] args) {
+        
+        List<Pokemon> pokemones = List.of(
+            new Pokemon(null, "Pikachu", "Eléctrico", 45, 0, null, false),
+            new Pokemon(null, "Charmander", "Fuego", 62, 0, null, false),
+            new Pokemon(null, "Squirtle", "Agua", 38, 0, null, false),
+            new Pokemon(null, "Snorlax", "Normal", 90, 0, null, false),
+            new Pokemon(null, "Mewtwo", "Psiquico", 88, 0, null, false));
+
+        Pokemon pokemonAlfa = pokemones.stream()
+            .max((a, b) -> Integer.compare(a.getNivel(), b.getNivel()))
+            .orElse(null);
+
+        System.out.println("Pokemon Alfa: " + pokemonAlfa.getNombre() + 
+            " (nivel " + pokemonAlfa.getNivel() + ")");
+    }
+}
+```
+**Captura de ejecución:**
+
+![](./src/main/dosw/semana_2/captura_ejercicio_4.png)
+
+**Explicación:** Se usa la función max() y se comparan los niveles de los pokemones mediante una lambda.
