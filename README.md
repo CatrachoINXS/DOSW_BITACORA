@@ -341,4 +341,3 @@ public class Ejercicio2 {
 ![](./src/main/dosw/semana_2/captura_ejercicio_2.png)
 
 **Explicación:** Se usa un `map()` transformar los nombres a mayusculas usando `toUpperCase()`.
-
