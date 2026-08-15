@@ -255,3 +255,57 @@ public class Ejercicio5 {
 - Curso: DOSW-1
 
 --- 
+
+### Ejercicio 05 — Transacciones Bancarias
+
+Dada una lista de Pokémon con nombre y tipo, obtener únicamente aquellos cuyo tipo sea Fuego.
+
+**Código implementado:**
+
+```java
+public class Ejercicio1 {
+    
+    public static void main(String[] args) {
+        
+        List<Pokemon> pokemones = List.of(
+            new Pokemon("Pikachu", "Eléctrico"),
+            new Pokemon("Charmander", "Fuego"),
+            new Pokemon("Squirtle", "Agua"),
+            new Pokemon("Vulpix", "Fuego"),
+            new Pokemon("Bulbasaur", "Planta"),
+            new Pokemon("Flareon", "Fuego"));
+
+        List<String> pokemonesTipoFuego = pokemones.stream()
+            .filter(p -> p.getTipo() == "Fuego")
+            .map(Pokemon::getNombre)
+            .toList();
+        
+        System.out.println(pokemonesTipoFuego);
+    }
+}
+
+public class Pokemon {
+    
+    private String nombre;
+    private String tipo;
+
+    public Pokemon(String nombre, String tipo) {
+        this.nombre = nombre;
+        this.tipo = tipo;
+    }
+
+    public String getNombre() {
+        return nombre;
+    } 
+
+    public String getTipo() {
+        return tipo;
+    }
+}
+```
+**Captura de ejecución:**
+
+![](./src/main/dosw/semana_2/captura_ejercicio_1.png)
+
+**Explicación:** Se usa un `filter()` para obtener unicamente los tipo Fuego y un `map()` para obtener los nombres de los pokemones.
+
