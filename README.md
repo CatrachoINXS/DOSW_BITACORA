@@ -37,7 +37,7 @@ public class Ejercicio1 {
 ```
 **Captura de ejecución:**
 
-![Ejecución del Ejercicio 1](./src/main/dosw/semana_1/streams/captura_ejercicio_1.png)
+![](./src/main/dosw/semana_1/streams/captura_ejercicio_1.png)
 
 **Explicación:** Primero se convierte la lista a un stream, usando `numeros.stream()`, despues aplicamos dos filter, uno para que los números sean mayores a 10, y otros para que sean pares. Finalmente, se convierte en una lista, con el método `toList()` y se imprime.
 
@@ -81,7 +81,7 @@ public class Ejercicio2 {
 ```
 **Captura de ejecución:**
 
-![Ejecución del Ejercicio 1](./src/main/dosw/semana_1/streams/captura_ejercicio_2.png)
+![](./src/main/dosw/semana_1/streams/captura_ejercicio_2.png)
 
 **Explicación:** Se convierte la lista a un stream, aplicamos un `filter()` para las palabras con longitud mayor a 4, usamos map para convertir a mayusculas mediante el metodo `toUpperCase()` y con `count()`, devolvemos la cantidad de elementos.
 
@@ -146,7 +146,7 @@ public class Ejercicio3 {
 ```
 **Captura de ejecución:**
 
-![Ejecución del Ejercicio 1](./src/main/dosw/semana_1/streams/captura_ejercicio_3.png)
+![](./src/main/dosw/semana_1/streams/captura_ejercicio_3.png)
 
 **Explicación:** Para ordenar los usuarios activos se convierte la lista de usuarios a un Stream, despues se filtran los activos, y mediante el método `map()` obtenemos el nombre de cada usuario y lo transformamos en mayusculas, ordenamos usando `sorted()` y lo convertimos a lista usando `toList()`.
 
@@ -177,6 +177,69 @@ public class Ejercicio4 {
 ```
 **Captura de ejecución:**
 
-![Ejecución del Ejercicio 1](./src/main/dosw/semana_1/streams/captura_ejercicio_4.png)
+![](./src/main/dosw/semana_1/streams/captura_ejercicio_4.png)
 
 **Explicación:** Se convierte la lista a un stream, aplicamos un `filter()` para los usuarios con edad mayor o igual a 18, usamos map para obtener el nombre e imprimimos cada uno.
+
+---
+
+### Ejercicio 05 — Transacciones Bancarias
+
+Dada una lista de transacciones bancarias representadas por objetos: 
+
+`class Transaction { String id; double amount; boolean approved; }` 
+
+Se requiere procesar la lista usando Streams para: 
+
+- Usar peek para ver cada transacción procesada (Utilizar System.out.println para ver la transacción) 
+- Verificar si existe al menos una transacción no aprobada 
+- Retornar true o false indicando si el lote de transacciones es válido.
+
+**Código implementado:**
+
+```java
+public class Transaction {
+    
+    private String id;
+    private double amount;
+    private boolean approved;
+
+    public Transaction(String id, double amount, boolean approved) {
+        this.id = id;
+        this.amount = amount;
+        this.approved = approved;
+    }
+
+    public boolean isApproved() {
+        return approved;
+    }
+
+    public String toString() {
+        return "Transacción: " + id + ", monto: " 
+            + amount + ", estado aprovación: " + approved;
+    }
+}
+
+public class Ejercicio5 {
+    
+    public static void main(String[] args) {
+        
+        List<Transaction> transacciones = List.of(
+            new Transaction("A01", 1400 , true),
+            new Transaction("A03", 2100 , true),
+            new Transaction("A02", 400, true),
+            new Transaction("A04", 243, false));
+
+        boolean loteValido = transacciones.stream()
+            .peek(t -> System.out.println(t.toString()))
+            .allMatch(t -> t.isApproved() == true);
+
+        System.out.println("\nValidez del lote: " + loteValido);
+    }
+}
+```
+**Captura de ejecución:**
+
+![](./src/main/dosw/semana_1/streams/captura_ejercicio_5.png)
+
+**Explicación:** Se transforma la lista de transacciones en un Stream, se hace peek de sus elementos para imprimirlos y al final se hace uso de `allMatch()` para retornar si todas las transacciones han sido aprovadas. 
