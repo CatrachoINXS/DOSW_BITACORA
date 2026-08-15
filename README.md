@@ -243,3 +243,15 @@ public class Ejercicio5 {
 ![](./src/main/dosw/semana_1/streams/captura_ejercicio_5.png)
 
 **Explicación:** Se transforma la lista de transacciones en un Stream, se hace peek de sus elementos para imprimirlos y al final se hace uso de `allMatch()` para retornar si todas las transacciones han sido aprovadas. 
+
+---
+
+# SEMANA No 2 — Bitácora Pokémon 
+
+## Datos de Entrenador: 
+
+- Nombre y Apellido: Cristian Camilo Ortiz Sanchez
+- Código de Estudiante: 1000105286
+- Curso: DOSW-1
+
+--- 
