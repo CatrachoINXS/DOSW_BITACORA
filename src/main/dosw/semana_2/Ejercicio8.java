@@ -20,6 +20,7 @@ public class Ejercicio8 {
             .map(p -> p.substring(0, p.indexOf("(")))
             .toList();
         
+        System.out.println("Listos para evolucionar:");
         System.out.println(pokemonesQuePuedenEvolucionar);
     }
 }
