@@ -84,3 +84,68 @@ public class Ejercicio2 {
 ![Ejecución del Ejercicio 1](./src/main/dosw/semana_1/streams/captura_ejercicio_2.png)
 
 **Explicación:** Se convierte la lista a un stream, aplicamos un `filter()` para las palabras con longitud mayor a 4, usamos map para convertir a mayusculas mediante el metodo `toUpperCase()` y con `count()`, devolvemos la cantidad de elementos.
+
+---
+
+### Ejercicio 03 — Obtener nombres de los Usuarios
+
+Dada una lista de usuarios con los atributos: id, name, age, active 
+
+Filtra únicamente los usuarios activos, obtén una lista con los nombres en mayúscula y ordenada alfabéticamente. 
+
+| DATOS DE ENTRADA | SALIDA ESPERADA |
+|----------|----------|
+| `users = List<User>`   | `sortedUsers = List<String>`    |
+
+**Código implementado:**
+
+```java
+public class User {
+
+    private int id;
+    private String name;
+    private int age;
+    private boolean active;
+
+    public User(int id, String name, int age, boolean active) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
+        this.active = active;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+}
+
+import java.util.List;
+
+public class Ejercicio3 {
+
+    public static void main(String[] args) {
+        
+        List<User> users = List.of(new User(1, "Cristian", 18, false),
+            new User(2, "Camilo", 18, true),
+            new User(3, "Pathfinder", 19, true),
+            new User(4, "Mirage", 21, true));
+
+        List<String> sortedUsers = users.stream()
+            .filter(u -> u.isActive())
+            .map(u -> u.getName().toUpperCase())
+            .sorted()
+            .toList();
+
+        System.out.println(sortedUsers.toString());
+    }  
+}
+```
+**Captura de ejecución:**
+
+![Ejecución del Ejercicio 1](./src/main/dosw/semana_1/streams/captura_ejercicio_3.png)
+
+**Explicación:** Para ordenar los usuarios activos se convierte la lista de usuarios a un Stream, despues se filtran los activos, y mediante el método `map()` obtenemos el nombre de cada usuario y lo transformamos en mayusculas, ordenamos usando `sorted()` y lo convertimos a lista usando `toList()`.
