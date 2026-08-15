@@ -256,7 +256,7 @@ public class Ejercicio5 {
 
 --- 
 
-### Ejercicio 05 — Transacciones Bancarias
+### Ejercicio 01 — Pokemon Tipo Fuego
 
 Dada una lista de Pokémon con nombre y tipo, obtener únicamente aquellos cuyo tipo sea Fuego.
 
@@ -309,3 +309,35 @@ public class Pokemon {
 
 **Explicación:** Se usa un `filter()` para obtener unicamente los tipo Fuego y un `map()` para obtener los nombres de los pokemones.
 
+---
+
+### Ejercicio 02 — Pokédex Gritona
+
+Transformar todos los nombres de Pokémon a mayúsculas. 
+
+**Código implementado:**
+
+```java
+public class Ejercicio2 {
+    
+    public static void main(String[] args) {
+        
+        List<Pokemon> pokemones = List.of(
+            new Pokemon("Pikachu", "Eléctrico"),
+            new Pokemon("Charmander", "Fuego"),
+            new Pokemon("Squirtle", "Agua"),
+            new Pokemon("Bulbasaur", "Planta"));
+
+        List<String> pokemonesMayusculas = pokemones.stream()
+            .map(p -> p.getNombre().toUpperCase())
+            .toList();
+        
+        System.out.println(pokemonesMayusculas);
+    }
+}
+```
+**Captura de ejecución:**
+
+![](./src/main/dosw/semana_2/captura_ejercicio_2.png)
+
+**Explicación:** Se usa un `map()` transformar los nombres a mayusculas usando `toUpperCase()`.
