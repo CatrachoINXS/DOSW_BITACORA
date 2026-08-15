@@ -530,3 +530,41 @@ public class Ejercicio8 {
 ![](./src/main/dosw/semana_2/captura_ejercicio_8.png)
 
 **Explicación:** Se usa un `filter()` en el stream para obtener únicamente los que pueden evolucionar y también un map para dejar solo el nombre.
+
+---
+
+### Ejercicio 09 — Equipo Élite
+
+Mostrar únicamente los Pokémon cuyo poderCombate sea superior a 500.     
+
+**Código implementado:**
+
+```java
+public class Ejercicio9 {
+    
+    public static void main(String[] args) {
+        
+        List<Pokemon> pokemones = List.of(
+            new Pokemon(null, "Pikachu", null, 0, 320, null, false),
+            new Pokemon(null, "Mewtwo", null, 0, 680, null, false),
+            new Pokemon(null, "Dragonite", null, 0, 530, null, false),
+            new Pokemon(null, "Squirtle", null, 0, 210, null, false),
+            new Pokemon(null, "Gengar", null, 0, 495, null, false),
+            new Pokemon(null, "Charizard", null, 0, 610, null, false)
+        );
+
+        List<String> pokemonesElite = pokemones.stream()
+            .filter(p -> p.getPoderCombate() > 500)
+            .map(p -> p.getNombre() + "(" + (int) p.getPoderCombate() + ")")
+            .toList();
+        
+        System.out.println("Equipo Élite (PC > 500): ");
+        System.out.println(pokemonesElite);
+    }
+}
+```
+**Captura de ejecución:**
+
+![](./src/main/dosw/semana_2/captura_ejercicio_9.png)
+
+**Explicación:** Se usa un `filter()` para obtener los que tengan poder mayor a 500 y un map para guardar la informacion en la lista.
