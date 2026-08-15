@@ -568,3 +568,39 @@ public class Ejercicio9 {
 ![](./src/main/dosw/semana_2/captura_ejercicio_9.png)
 
 **Explicación:** Se usa un `filter()` para obtener los que tengan poder mayor a 500 y un map para guardar la informacion en la lista.
+
+---
+
+### Ejercicio 10 — Pokédex Compacta
+
+Generar una lista que contenga únicamente los nombres de todos los Pokémon del equipo.     
+
+**Código implementado:**
+
+```java
+public class Ejercicio10 {
+    
+    public static void main(String[] args) {
+        
+        List<Pokemon> pokemones = List.of(
+            new Pokemon(null, "Pikachu", null, 0, 320, null, false),
+            new Pokemon(null, "Mewtwo", null, 0, 680, null, false),
+            new Pokemon(null, "Dragonite", null, 0, 530, null, false),
+            new Pokemon(null, "Squirtle", null, 0, 210, null, false),
+            new Pokemon(null, "Gengar", null, 0, 495, null, false),
+            new Pokemon(null, "Charizard", null, 0, 610, null, false)
+        );
+
+        List<String> pokedexCompacta = pokemones.stream()
+            .map(Pokemon::getNombre)
+            .collect(Collectors.toList());
+
+        System.out.println(pokedexCompacta);
+    }
+}
+```
+**Captura de ejecución:**
+
+![](./src/main/dosw/semana_2/captura_ejercicio_10.png)
+
+**Explicación:** Se usa un `map()` para obtener el nombre de cada pokemon y despues se guarda en una lista.
