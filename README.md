@@ -493,3 +493,40 @@ public class Ejercicio7 {
 ![](./src/main/dosw/semana_2/captura_ejercicio_7.png)
 
 **Explicación:** Se usa un `sorted()` en el stream para ordenar los nombres de los pokemon.
+
+---
+
+### Ejercicio 08 — Evoluciones Preparadas
+
+Dada una lista de Pokémon que incluye si pueden evolucionar (boolean puedeEvolucionar), obtener únicamente los que estén listos para evolucionar.    
+
+**Código implementado:**
+
+```java
+public class Ejercicio8 {
+
+    public static void main(String[] args) {
+        
+        List<String> pokemones = List.of(
+            "Pikachu(true)",
+            "Raichu(false)",
+            "Charmander(true)",
+            "Charizard(false)",
+            "Squirtle(true)",
+            "Blastoise(false)"
+        );
+
+        List<String> pokemonesQuePuedenEvolucionar = pokemones.stream()
+            .filter(p -> p.endsWith("true)"))
+            .map(p -> p.substring(0, p.indexOf("(")))
+            .toList();
+        
+        System.out.println(pokemonesQuePuedenEvolucionar);
+    }
+}
+```
+**Captura de ejecución:**
+
+![](./src/main/dosw/semana_2/captura_ejercicio_8.png)
+
+**Explicación:** Se usa un `filter()` en el stream para obtener únicamente los que pueden evolucionar y también un map para dejar solo el nombre.
