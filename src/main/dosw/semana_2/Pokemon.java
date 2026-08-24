@@ -21,6 +21,16 @@ public class Pokemon {
         this.legendario = legendario;
     }
 
+    public Pokemon(String nombre, String tipo) {
+        this.nombre = nombre;
+        this.tipo = tipo;
+    }
+
+    public Pokemon(String nombre, String tipo, int nivel) {
+        this(nombre, tipo);
+        this.nivel = nivel;
+    }
+
     public Long getId() {
         return id;
     }

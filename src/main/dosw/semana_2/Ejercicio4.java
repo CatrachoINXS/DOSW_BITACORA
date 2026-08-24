@@ -7,11 +7,11 @@ public class Ejercicio4 {
     public static void main(String[] args) {
         
         List<Pokemon> pokemones = List.of(
-            new Pokemon(null, "Pikachu", "Eléctrico", 45, 0, null, false),
-            new Pokemon(null, "Charmander", "Fuego", 62, 0, null, false),
-            new Pokemon(null, "Squirtle", "Agua", 38, 0, null, false),
-            new Pokemon(null, "Snorlax", "Normal", 90, 0, null, false),
-            new Pokemon(null, "Mewtwo", "Psiquico", 88, 0, null, false));
+            new Pokemon("Pikachu", "Eléctrico", 45),
+            new Pokemon("Charmander", "Fuego", 62),
+            new Pokemon("Squirtle", "Agua", 38),
+            new Pokemon("Snorlax", "Normal", 90),
+            new Pokemon("Mewtwo", "Psiquico", 88));
 
         Pokemon pokemonAlfa = pokemones.stream()
             .max((a, b) -> Integer.compare(a.getNivel(), b.getNivel()))
