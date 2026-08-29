@@ -15,7 +15,7 @@ public class Ejercicio1 {
             new Pokemon("Flareon", "Fuego"));
 
         List<String> pokemonesTipoFuego = pokemones.stream()
-            .filter(p -> p.getTipo() == "Fuego")
+            .filter(p -> "Fuego".equals(p.getTipo()))
             .map(Pokemon::getNombre)
             .toList();
         

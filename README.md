@@ -370,3 +370,237 @@ public class Ejercicio3 {
 
 **Explicación:** Se usa `reduce()` junto con `Integer::sum` para sumar los elementos de la lista.
 
+---
+
+### Ejercicio 04 — Pokémon Alfa
+
+Encontrar el Pokémon con el nivel más alto dentro del equipo.  
+
+**Código implementado:**
+
+```java
+public class Ejercicio4 {
+    
+    public static void main(String[] args) {
+        
+        List<Pokemon> pokemones = List.of(
+            new Pokemon(null, "Pikachu", "Eléctrico", 45, 0, null, false),
+            new Pokemon(null, "Charmander", "Fuego", 62, 0, null, false),
+            new Pokemon(null, "Squirtle", "Agua", 38, 0, null, false),
+            new Pokemon(null, "Snorlax", "Normal", 90, 0, null, false),
+            new Pokemon(null, "Mewtwo", "Psiquico", 88, 0, null, false));
+
+        Pokemon pokemonAlfa = pokemones.stream()
+            .max((a, b) -> Integer.compare(a.getNivel(), b.getNivel()))
+            .orElse(null);
+
+        System.out.println("Pokemon Alfa: " + pokemonAlfa.getNombre() + 
+            " (nivel " + pokemonAlfa.getNivel() + ")");
+    }
+}
+```
+**Captura de ejecución:**
+
+![](./src/main/dosw/semana_2/captura_ejercicio_4.png)
+
+**Explicación:** Se usa la función max() y se comparan los niveles de los pokemones mediante una lambda.
+
+---
+
+### Ejercicio 05 — Pokémon Legendarios 
+
+Encontrar el Pokémon con el nivel más alto dentro del equipo.  
+
+**Código implementado:**
+
+```java
+public class Ejercicio5 {
+    
+    public static void main(String[] args) {
+        
+        List<Pokemon> pokemones = List.of(
+            new Pokemon(null, "Pikachu", "Eléctrico", 45, 0, null, false),
+            new Pokemon(null, "Charmander", "Fuego", 62, 0, null, false),
+            new Pokemon(null, "Squirtle", "Agua", 38, 0, null, false),
+            new Pokemon(null, "Dragonite", null, 82, 0, null, false),
+            new Pokemon(null, "Mewtwo", "Psiquico", 88, 0, null, false),
+            new Pokemon(null, "Mew", null, 85, 0, null, false));
+
+        long cantidadPokemonesLegendarios = pokemones.stream()
+            .filter(p -> p.getNivel() > 80)
+            .count();
+
+        System.out.println("Pokémon con nivel > 80: " + cantidadPokemonesLegendarios);
+    }
+}
+```
+**Captura de ejecución:**
+
+![](./src/main/dosw/semana_2/captura_ejercicio_5.png)
+
+**Explicación:** Se usa un `filter()` para escoger los pokemon con nivel mayor a 80 y despues se usa `count()`.
+
+---
+
+### Ejercicio 06 — Pokédex sin Duplicados
+
+Dada una lista de Pokémon con elementos repetidos, generar una nueva colección donde cada Pokémon aparezca una sola vez.   
+
+**Código implementado:**
+
+```java
+public class Ejercicio6 {
+    
+    public static void main(String[] args) {
+        
+        List<String> pokemones = List.of("Pikachu", "Charmander", "Pikachu", "Squirtle", "Charmander", "Mewtwo");
+
+        System.out.println(pokemones.stream()
+            .distinct()
+            .toList()
+        );
+    }
+}
+```
+**Captura de ejecución:**
+
+![](./src/main/dosw/semana_2/captura_ejercicio_6.png)
+
+**Explicación:** Se usa un `distinct()` en el stream para remover los elementos duplicados.
+
+---
+
+### Ejercicio 07 — Orden del Profesor Oak
+
+El Profesor Oak quiere su Pokédex organizada. Ordenar alfabéticamente los nombres de los Pokémon.    
+
+**Código implementado:**
+
+```java
+public class Ejercicio7 {
+    
+    public static void main(String[] args) {
+        
+        List<String> pokemones = List.of("Squirtle", "Pikachu", "Mewtwo",
+            "Bulbasaur", "Charmander", "Abra");
+
+        System.out.println(pokemones.stream().sorted().toList());
+    }
+}
+```
+**Captura de ejecución:**
+
+![](./src/main/dosw/semana_2/captura_ejercicio_7.png)
+
+**Explicación:** Se usa un `sorted()` en el stream para ordenar los nombres de los pokemon.
+
+---
+
+### Ejercicio 08 — Evoluciones Preparadas
+
+Dada una lista de Pokémon que incluye si pueden evolucionar (boolean puedeEvolucionar), obtener únicamente los que estén listos para evolucionar.    
+
+**Código implementado:**
+
+```java
+public class Ejercicio8 {
+
+    public static void main(String[] args) {
+        
+        List<String> pokemones = List.of(
+            "Pikachu(true)",
+            "Raichu(false)",
+            "Charmander(true)",
+            "Charizard(false)",
+            "Squirtle(true)",
+            "Blastoise(false)"
+        );
+
+        List<String> pokemonesQuePuedenEvolucionar = pokemones.stream()
+            .filter(p -> p.endsWith("true)"))
+            .map(p -> p.substring(0, p.indexOf("(")))
+            .toList();
+        
+        System.out.println(pokemonesQuePuedenEvolucionar);
+    }
+}
+```
+**Captura de ejecución:**
+
+![](./src/main/dosw/semana_2/captura_ejercicio_8.png)
+
+**Explicación:** Se usa un `filter()` en el stream para obtener únicamente los que pueden evolucionar y también un map para dejar solo el nombre.
+
+---
+
+### Ejercicio 09 — Equipo Élite
+
+Mostrar únicamente los Pokémon cuyo poderCombate sea superior a 500.     
+
+**Código implementado:**
+
+```java
+public class Ejercicio9 {
+    
+    public static void main(String[] args) {
+        
+        List<Pokemon> pokemones = List.of(
+            new Pokemon(null, "Pikachu", null, 0, 320, null, false),
+            new Pokemon(null, "Mewtwo", null, 0, 680, null, false),
+            new Pokemon(null, "Dragonite", null, 0, 530, null, false),
+            new Pokemon(null, "Squirtle", null, 0, 210, null, false),
+            new Pokemon(null, "Gengar", null, 0, 495, null, false),
+            new Pokemon(null, "Charizard", null, 0, 610, null, false)
+        );
+
+        List<String> pokemonesElite = pokemones.stream()
+            .filter(p -> p.getPoderCombate() > 500)
+            .map(p -> p.getNombre() + "(" + (int) p.getPoderCombate() + ")")
+            .toList();
+        
+        System.out.println("Equipo Élite (PC > 500): ");
+        System.out.println(pokemonesElite);
+    }
+}
+```
+**Captura de ejecución:**
+
+![](./src/main/dosw/semana_2/captura_ejercicio_9.png)
+
+**Explicación:** Se usa un `filter()` para obtener los que tengan poder mayor a 500 y un map para guardar la informacion en la lista.
+
+---
+
+### Ejercicio 10 — Pokédex Compacta
+
+Generar una lista que contenga únicamente los nombres de todos los Pokémon del equipo.     
+
+**Código implementado:**
+
+```java
+public class Ejercicio10 {
+    
+    public static void main(String[] args) {
+        
+        List<Pokemon> pokemones = List.of(
+            new Pokemon(null, "Pikachu", null, 0, 320, null, false),
+            new Pokemon(null, "Mewtwo", null, 0, 680, null, false),
+            new Pokemon(null, "Dragonite", null, 0, 530, null, false),
+            new Pokemon(null, "Squirtle", null, 0, 210, null, false),
+            new Pokemon(null, "Gengar", null, 0, 495, null, false),
+            new Pokemon(null, "Charizard", null, 0, 610, null, false)
+        );
+
+        List<String> pokedexCompacta = pokemones.stream()
+            .map(Pokemon::getNombre)
+            .collect(Collectors.toList());
+
+        System.out.println(pokedexCompacta);
+    }
+}
+```
+**Captura de ejecución:**
+
+![](./src/main/dosw/semana_2/captura_ejercicio_10.png)
+
+**Explicación:** Se usa un `map()` para obtener el nombre de cada pokemon y despues se guarda en una lista.
