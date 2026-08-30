@@ -1,8 +1,7 @@
-package main.dosw.semana_2;
+package main.dosw.semana_2.pokemon;
 
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Ejercicio17 {
     
