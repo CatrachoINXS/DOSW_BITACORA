@@ -1,4 +1,4 @@
-package main.dosw.semana_2;
+package main.dosw.semana_2.pokemon;
 
 import java.util.List;
 
