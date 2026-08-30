@@ -305,7 +305,7 @@ public class Pokemon {
 ```
 **Captura de ejecución:**
 
-![](./src/main/dosw/semana_2/captura_ejercicio_1.png)
+![](src\main\dosw\semana_2\pokemon\CapturasPantalla\captura_ejercicio_1.png)
 
 **Explicación:** Se usa un `filter()` para obtener unicamente los tipo Fuego y un `map()` para obtener los nombres de los pokemones.
 
@@ -338,7 +338,7 @@ public class Ejercicio2 {
 ```
 **Captura de ejecución:**
 
-![](./src/main/dosw/semana_2/captura_ejercicio_2.png)
+![](src\main\dosw\semana_2\pokemon\CapturasPantalla\captura_ejercicio_2.png)
 
 **Explicación:** Se usa un `map()` transformar los nombres a mayusculas usando `toUpperCase()`.
 
@@ -366,7 +366,7 @@ public class Ejercicio3 {
 ```
 **Captura de ejecución:**
 
-![](./src/main/dosw/semana_2/captura_ejercicio_3.png)
+![](src\main\dosw\semana_2\pokemon\CapturasPantalla\captura_ejercicio_3.png)
 
 **Explicación:** Se usa `reduce()` junto con `Integer::sum` para sumar los elementos de la lista.
 
@@ -401,7 +401,7 @@ public class Ejercicio4 {
 ```
 **Captura de ejecución:**
 
-![](./src/main/dosw/semana_2/captura_ejercicio_4.png)
+![](src\main\dosw\semana_2\pokemon\CapturasPantalla\captura_ejercicio_4.png)
 
 **Explicación:** Se usa la función max() y se comparan los niveles de los pokemones mediante una lambda.
 
@@ -436,7 +436,7 @@ public class Ejercicio5 {
 ```
 **Captura de ejecución:**
 
-![](./src/main/dosw/semana_2/captura_ejercicio_5.png)
+![](src\main\dosw\semana_2\pokemon\CapturasPantalla\captura_ejercicio_5.png)
 
 **Explicación:** Se usa un `filter()` para escoger los pokemon con nivel mayor a 80 y despues se usa `count()`.
 
@@ -464,7 +464,7 @@ public class Ejercicio6 {
 ```
 **Captura de ejecución:**
 
-![](./src/main/dosw/semana_2/captura_ejercicio_6.png)
+![](src\main\dosw\semana_2\pokemon\CapturasPantalla\captura_ejercicio_6.png)
 
 **Explicación:** Se usa un `distinct()` en el stream para remover los elementos duplicados.
 
@@ -490,7 +490,7 @@ public class Ejercicio7 {
 ```
 **Captura de ejecución:**
 
-![](./src/main/dosw/semana_2/captura_ejercicio_7.png)
+![](src\main\dosw\semana_2\pokemon\CapturasPantalla\captura_ejercicio_7.png)
 
 **Explicación:** Se usa un `sorted()` en el stream para ordenar los nombres de los pokemon.
 
@@ -527,7 +527,7 @@ public class Ejercicio8 {
 ```
 **Captura de ejecución:**
 
-![](./src/main/dosw/semana_2/captura_ejercicio_8.png)
+![](src\main\dosw\semana_2\pokemon\CapturasPantalla\captura_ejercicio_8.png)
 
 **Explicación:** Se usa un `filter()` en el stream para obtener únicamente los que pueden evolucionar y también un map para dejar solo el nombre.
 
@@ -565,7 +565,7 @@ public class Ejercicio9 {
 ```
 **Captura de ejecución:**
 
-![](./src/main/dosw/semana_2/captura_ejercicio_9.png)
+![](src\main\dosw\semana_2\pokemon\CapturasPantalla\captura_ejercicio_9.png)
 
 **Explicación:** Se usa un `filter()` para obtener los que tengan poder mayor a 500 y un map para guardar la informacion en la lista.
 
@@ -601,6 +601,344 @@ public class Ejercicio10 {
 ```
 **Captura de ejecución:**
 
-![](./src/main/dosw/semana_2/captura_ejercicio_10.png)
+![](src\main\dosw\semana_2\pokemon\CapturasPantalla\captura_ejercicio_10.png)
 
 **Explicación:** Se usa un `map()` para obtener el nombre de cada pokemon y despues se guarda en una lista.
+
+---
+
+### Ejercicio 11 — Poder Promedio
+
+Calcular el promedio de poderCombate de todos los Pokémon del equipo     
+
+**Código implementado:**
+
+```java
+public class Ejercicio11 {
+
+    public static void main(String[] args) {
+
+        List<Pokemon> pokemones = List.of(
+            new Pokemon(1L, "Pikachu", "Eléctrico", 35, 320, "Kanto", false),
+            new Pokemon(2L, "Mewtwo", "Psíquico", 70, 680, "Kanto", true),
+            new Pokemon(3L, "Dragonite", "Dragón/Volador", 55, 530, "Kanto", false),
+            new Pokemon(4L, "Squirtle", "Agua", 20, 210, "Kanto", false),
+            new Pokemon(5L, "Gengar", "Fantasma/Veneno", 50, 495, "Kanto", false),
+            new Pokemon(6L, "Charizard", "Fuego/Volador", 65, 610, "Kanto", false)
+        );
+
+        double poderPromedio = pokemones.stream()
+            .mapToDouble(Pokemon::getPoderCombate)
+            .average()
+            .orElse(0);
+
+        System.out.printf("Poder de combate promedio: %f", poderPromedio);
+    }
+}
+```
+
+**Captura de ejecución:**
+
+![](src\main\dosw\semana_2\pokemon\CapturasPantalla\captura_ejercicio_11.png)
+
+**Explicación:** Se usa `mapToDouble()` para extraer el poder de combate de cada pokemon y luego con `average()` sacamos el promedio facil.
+
+---
+
+### Ejercicio 12 — Campeón Regional 
+
+Obtener el Pokémon con mayor poderCombate de toda la lista.
+
+**Código implementado:**
+
+```java
+public class Ejercicio12 {
+    
+    public static void main(String[] args) {
+        
+        List<Pokemon> pokemones = List.of(
+            new Pokemon(1L, "Pikachu", "Eléctrico", 35, 320, "Kanto", false),
+            new Pokemon(2L, "Mewtwo", "Psíquico", 70, 680, "Kanto", true),
+            new Pokemon(3L, "Dragonite", "Dragón/Volador", 55, 530, "Kanto", false),
+            new Pokemon(6L, "Charizard", "Fuego/Volador", 65, 610, "Kanto", false)
+        );
+
+        String campeon = pokemones.stream()
+            .max((a, b) -> Double.compare(a.getPoderCombate(), b.getPoderCombate()))
+            .map(p -> "Campeón: " + p.getNombre() + " con PC: " + p.getPoderCombate())
+            .orElse(null);
+        
+        System.out.println(campeon);
+    }
+}
+```
+
+**Captura de ejecución:**
+
+![](src\main\dosw\semana_2\pokemon\CapturasPantalla\captura_ejercicio_12.png)
+
+**Explicación:** Con el metodo `max()` comparamos el poder de combate para encontrar el mas fuerte y sacamos el mensaje formateado.
+
+---
+
+### Ejercicio 13 — Organizar por Tipo
+
+Agrupar todos los Pokémon por su tipo y mostrar el listado por grupo.
+
+**Código implementado:**
+
+```java
+public class Ejercicio13 {
+
+    public static void main(String[] args) {
+        
+        List<Pokemon> pokemones = List.of(
+            new Pokemon(1L, "Squirtle", "Agua", 20, 210, "Kanto", false),
+            new Pokemon(2L, "Psyduck", "Agua", 22, 245, "Kanto", false),
+            new Pokemon(3L, "Charmander", "Fuego", 20, 215, "Kanto", false),
+            new Pokemon(4L, "Vulpix", "Fuego", 21, 230, "Kanto", false),
+            new Pokemon(5L, "Bulbasaur", "Planta/Veneno", 20, 218, "Kanto", false)
+        );
+
+        pokemones.stream()
+            .collect(Collectors.groupingBy(Pokemon::getTipo))
+            .forEach((a, b) -> {
+                System.out.println(a + ":  " + b.stream().map(Pokemon::getNombre).toList());
+            });
+    }
+}
+```
+
+**Captura de ejecución:**
+
+![](src\main\dosw\semana_2\pokemon\CapturasPantalla\captura_ejercicio_13.png)
+
+**Explicación:** Se agrupan los pokemones usando `groupingBy()` por su tipo y despues imprimo la lista de nombres por cada tipo.
+
+---
+
+### Ejercicio 14 — Organizar por Región
+
+Insertar Agrupar los Pokémon según su región de origen.     
+
+**Código implementado:**
+
+```java
+public class Ejercicio14 {
+
+    public static void main(String[] args) {
+        
+        List<Pokemon> pokemones = List.of(
+            new Pokemon(1L, "Pikachu", "Eléctrico", 35, 320, "Kanto", false),
+            new Pokemon(2L, "Chikorita", "Planta", 18, 190, "Johto", false),
+            new Pokemon(3L, "Torchic", "Fuego", 20, 210, "Hoenn", false),
+            new Pokemon(4L, "Piplup", "Agua", 19, 205, "Sinnoh", false),
+            new Pokemon(5L, "Charmander", "Fuego", 20, 215, "Kanto", false),
+            new Pokemon(6L, "Totodile", "Agua", 19, 200, "Johto", false)
+        );
+
+        pokemones.stream()
+            .collect(Collectors.groupingBy(Pokemon::getRegion))
+            .forEach((a, b) -> {
+                System.out.println(a + ":  " + b.stream().map(Pokemon::getNombre).toList());
+            });
+    }
+}
+```
+
+**Captura de ejecución:**
+
+![](src\main\dosw\semana_2\pokemon\CapturasPantalla\captura_ejercicio_14.png)
+
+**Explicación:** Igual al anterior pero esta vez usando `groupingBy()` para agruparlos segun la region a la que pertenecen.
+
+---
+
+### Ejercicio 15 — Maestro de Gimnasios
+
+Dado un listado de entrenadores con sus medallas, encontrar el entrenador con más medallas.
+
+**Código implementado:**
+
+```java
+public class Ejercicio15 {
+    
+    public static void main(String[] args) {
+        
+        List<Entrenador> entrenadores = List.of(
+            new Entrenador(List.of(), 1L, 8, "Ash"),
+            new Entrenador(List.of(), 2L, 5, "Misty"),
+            new Entrenador(List.of(), 3L, 6, "Brock"),
+            new Entrenador(List.of(), 4L, 10, "Gary")
+        );
+
+        Entrenador maestroDeGimnasios = entrenadores.stream()
+            .max((a, b) -> Integer.compare(a.getMedallas(), b.getMedallas()))
+            .orElse(null);
+        
+        System.out.println("Campeón de gimnasios: " + maestroDeGimnasios.getNombre());
+        System.out.println("Medallas obtenidas: " + maestroDeGimnasios.getMedallas());
+    }
+}
+```
+
+**Captura de ejecución:**
+
+![](src\main\dosw\semana_2\pokemon\CapturasPantalla\captura_ejercicio_15.png)
+
+**Explicación:** Usamos `max()` comparando la cantidad de medallas para saber cual es el entrenador que mas tiene.
+
+---
+
+### Ejercicio 16 — Entrenadores Experimentados
+
+Mostrar únicamente los entrenadores que posean más de 5 medallas.
+
+**Código implementado:**
+
+```java
+public class Ejercicio16 {
+    
+    public static void main(String[] args) {
+        
+        List<Entrenador> entrenadores = List.of(
+            new Entrenador(List.of(), 1L, 8, "Ash"),
+            new Entrenador(List.of(), 2L, 5, "Misty"),
+            new Entrenador(List.of(), 3L, 6, "Brock"),
+            new Entrenador(List.of(), 4L, 10, "Gary"),
+            new Entrenador(List.of(), 5L, 3, "May"),
+            new Entrenador(List.of(), 6L, 7, "Dawn")
+        );
+
+        List<String> entrenadoresConMasMedallas = entrenadores.stream()
+            .filter(e -> e.getMedallas() > 5)
+            .map(e -> e.getNombre() + "(" + e.getMedallas() + ")")
+            .toList();
+
+        System.out.println("Entrenadores con > 5 medallas:");
+        System.out.println(entrenadoresConMasMedallas);
+    }
+}
+```
+
+**Captura de ejecución:**
+
+![](src\main\dosw\semana_2\pokemon\CapturasPantalla\captura_ejercicio_16.png)
+
+**Explicación:** Se filtra con un `filter()` los entrenadores con mas de 5 medallas y armamos un string con su nombre y medallas.
+
+---
+
+### Ejercicio 17 — Equipo Más Poderoso
+
+Calcular cuál entrenador tiene la suma total de poderCombate más alta entre todos sus Pokémon.
+
+**Código implementado:**
+
+```java
+public class Ejercicio17 {
+    
+    public static void main(String[] args) {
+        
+        List<Pokemon> equipoAsh = List.of(
+            new Pokemon(1L, "Pikachu", "Eléctrico", 35, 320, "Kanto", false),
+            new Pokemon(2L, "Charizard", "Fuego/Volador", 65, 610, "Kanto", false),
+            new Pokemon(3L, "Squirtle", "Agua", 20, 210, "Kanto", false),
+            new Pokemon(4L, "Charmander", "Fuego", 20, 215, "Kanto", false),
+            new Pokemon(5L, "Gengar", "Fantasma/Veneno", 50, 495, "Kanto", false)
+        );
+
+        List<Pokemon> equipoGary = List.of(
+            new Pokemon(6L, "Mewtwo", "Psíquico", 70, 680, "Kanto", true),
+            new Pokemon(7L, "Dragonite", "Dragón/Volador", 55, 530, "Kanto", false),
+            new Pokemon(8L, "Charizard", "Fuego/Volador", 65, 610, "Kanto", false),
+            new Pokemon(9L, "Blastoise", "Agua", 52, 520, "Kanto", false)
+        );
+
+        List<Pokemon> equipoBrock = List.of(
+            new Pokemon(10L, "Dragonite", "Dragón/Volador", 55, 530, "Kanto", false),
+            new Pokemon(11L, "Gengar", "Fantasma/Veneno", 50, 495, "Kanto", false),
+            new Pokemon(12L, "Squirtle", "Agua", 20, 210, "Kanto", false),
+            new Pokemon(13L, "Onix", "Roca/Tierra", 22, 235, "Kanto", false),
+            new Pokemon(14L, "Geodude", "Roca/Tierra", 19, 200, "Kanto", false)
+        );
+
+        List<Entrenador> entrenadores = List.of(
+            new Entrenador(equipoAsh, 1L, 8, "Ash"),
+            new Entrenador(equipoGary, 2L, 10, "Gary"),
+            new Entrenador(equipoBrock, 3L, 6, "Brock")
+        );
+
+        Entrenador entrenadorMasPoderoso = entrenadores.stream()
+            .max(Comparator.comparingDouble(e -> e.getEquipo()
+                .stream()
+                .mapToDouble(Pokemon::getPoderCombate)
+                .sum()))
+            .orElse(null);
+
+        System.out.println("Entrenador mas poderoso: " + entrenadorMasPoderoso.getNombre());
+        System.out.println("Poder acumulado del equipo: " + entrenadorMasPoderoso.getEquipo()
+            .stream().mapToDouble(Pokemon::getPoderCombate).sum());
+    }
+}
+```
+
+**Captura de ejecución:**
+
+![](src\main\dosw\semana_2\pokemon\CapturasPantalla\captura_ejercicio_17.png)
+
+**Explicación:** Se calcula la suma del poder de todo el equipo de cada entrenador y sacamos el maximo con un `Comparator.comparingDouble()`.
+
+---
+
+### Ejercicio 18 — Top 5 Pokémon Más Fuertes
+
+Generar un ranking de los cinco Pokémon con mayor poderCombate de toda la Pokédex.
+
+**Código implementado:**
+
+```java
+public class Ejercicio18 {
+    
+    public static void main(String[] args) {
+        
+        List<Pokemon> pokemones = List.of(
+            new Pokemon(4L, "Gengar", "Fantasma/Veneno", 50, 495, "Kanto", false),
+            new Pokemon(1L, "Mewtwo", "Psíquico", 70, 680, "Kanto", true),
+            new Pokemon(9L, "Psyduck", "Agua", 22, 245, "Kanto", false),
+            new Pokemon(3L, "Dragonite", "Dragón/Volador", 55, 530, "Kanto", false),
+            new Pokemon(6L, "Lucario", "Lucha/Acero", 50, 310, "Sinnoh", false),
+            new Pokemon(5L, "Pikachu", "Eléctrico", 35, 320, "Kanto", false),
+            new Pokemon(2L, "Rayquaza", "Dragón/Volador", 70, 200, "Hoenn", true),
+            new Pokemon(10L, "Squirtle", "Agua", 20, 210, "Kanto", false),
+            new Pokemon(7L, "Charizard", "Fuego/Volador", 65, 610, "Kanto", false),
+            new Pokemon(8L, "Tyranitar", "Roca/Siniestro", 60, 220, "Johto", false)
+        );
+
+        List<Pokemon> topPokemones = pokemones.stream()
+            .sorted(Comparator.comparing(Pokemon::getPoderCombate).reversed())
+            .limit(5)
+            .toList();
+
+        IntStream.range(0, topPokemones.size())
+            .forEach(i -> {
+                Pokemon pokemon = topPokemones.get(i);
+                System.out.println("#" + (i + 1) + " " 
+                    + pokemon.getNombre() + " - PC: " + pokemon.getPoderCombate());
+            });
+    }
+}
+```
+
+**Captura de ejecución:**
+
+![](src\main\dosw\semana_2\pokemon\CapturasPantalla\captura_ejercicio_18.png)
+
+**Explicación:** Ordenamos con `sorted()` de mayor a menor poder de combate, nos quedamos con los primeros 5 usando `limit(5)` y los mostramos en lista.
+
+---
+
+## Retos Especiales
+- [x] Reto Legendario — Method References
+- [x] Reto Shiny — Buenas prácticas de commits
+- [ ] Reto Mewtwo — Ejercicio propuesto
