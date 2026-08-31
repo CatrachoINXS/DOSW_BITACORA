@@ -13,9 +13,9 @@
 
 Dada una lista de números enteros, necesitamos obtener una nueva lista solo con los números pares mayores a 10.
 
-| DATOS DE ENTRADA | SALIDA ESPERADA |
-|----------|----------|
-| [3, 8, 10, 12, 15, 18, 20]    | [12, 18, 20]    |
+| DATOS DE ENTRADA           | SALIDA ESPERADA |
+| -------------------------- | --------------- |
+| [3, 8, 10, 12, 15, 18, 20] | [12, 18, 20]    |
 
 **Código implementado:**
 
@@ -52,9 +52,9 @@ Dada una lista de palabras, se requiere:
 - Ordenarlas alfabéticamente 
 - Obtener la cantidad total de palabras resultantes 
 
-| DATOS DE ENTRADA | SALIDA ESPERADA |
-|----------|----------|
-| ["java","stream","api","functional","code", “git”]    | Cantidad de palabras resultantes: 2    |
+| DATOS DE ENTRADA                                   | SALIDA ESPERADA                     |
+| -------------------------------------------------- | ----------------------------------- |
+| ["java","stream","api","functional","code", “git”] | Cantidad de palabras resultantes: 2 |
 
 **Código implementado:**
 
@@ -93,9 +93,9 @@ Dada una lista de usuarios con los atributos: id, name, age, active
 
 Filtra únicamente los usuarios activos, obtén una lista con los nombres en mayúscula y ordenada alfabéticamente. 
 
-| DATOS DE ENTRADA | SALIDA ESPERADA |
-|----------|----------|
-| `users = List<User>`   | `sortedUsers = List<String>`    |
+| DATOS DE ENTRADA     | SALIDA ESPERADA              |
+| -------------------- | ---------------------------- |
+| `users = List<User>` | `sortedUsers = List<String>` |
 
 **Código implementado:**
 
@@ -942,3 +942,831 @@ public class Ejercicio18 {
 - [x] Reto Legendario — Method References
 - [x] Reto Shiny — Buenas prácticas de commits
 - [ ] Reto Mewtwo — Ejercicio propuesto
+
+# SEMANA No 4 — PATRONES DE DISEÑO DE SOFTWARE - MULTIVARIABLE 
+ 
+## Datos personales: 
+- Nombre y Apellido: Cristian Camilo Ortiz Sanchez
+- Código de Estudiante: 1000105286
+- Curso: DOSW-1
+
+---
+
+### Ejercicio 01 — Plataforma de Pagos Inteligentes
+
+> Una aplicación de e-commerce permite pagar con tarjeta, PSE, Nequi, PayPal y transferencia bancaria. Cada medio tiene una lógica distinta pero el flujo de compra es el mismo. Además, según el país del usuario, el sistema construye el proveedor de pago correcto (Colombia → PSE/Nequi, USA → PayPal/Stripe).
+
+| Strategy | Factory Method |
+| --------- | --------- |
+| Strategy encapsula cada algoritmo de pago en una clase independiente (TarjetaStrategy, PseStrategy, NequiStrategy). El Checkout trabaja con la interfaz PaymentStrategy sin importar cuál medio se use.   | Factory Method crea el proveedor correcto según el país del usuario. ColombiaPaymentFactory, UsaPaymentFactory. El cliente no sabe qué objeto concreto se construye.|
+
+**Diagrama de clases:**
+
+![](src\main\dosw\semana_4\ejercicio_1\DOSW-T4-E1.png)
+
+**Código implementado. Clases relevantes:**
+
+```java
+public interface PaymentFactory {
+    PaymentStrategy create(String type);
+}
+```
+```java
+public class ColombiaPaymentFactory implements PaymentFactory {
+
+    @Override
+    public PaymentStrategy create(String type) {
+        if (type.equalsIgnoreCase("tarjeta")) {
+            return new TarjetaStrategy();
+        } else if (type.equalsIgnoreCase("nequi")) {
+            return new NequiStrategy();
+        } else if (type.equalsIgnoreCase("pse")) {
+            return new PseStrategy();
+        } else {
+            throw new IllegalArgumentException("Método de pago no valido");
+        }
+    }
+}
+```
+```java
+public interface PaymentStrategy {
+    void process(double amount);
+}
+```
+```java
+public class Checkout {
+    
+    private PaymentStrategy strategy;
+
+    public Checkout(PaymentStrategy strategy) {
+        this.strategy = strategy;
+    }
+
+    public void setStrategy(PaymentStrategy strategy) {
+        this.strategy = strategy;
+    }
+
+    public void pay(double amount) {
+        strategy.process(amount);
+    }
+}
+```
+**Explicación:** Sin estos patrones el Checkout terminaría lleno de ifs preguntando por el pais y por el medio de pago, lo cual iria en contra de Open Closed. Con Factory Method el Checkout se desacopla del Gateway, y con Strategy cada medio de pago vive como un algoritmo aislado, lo cual lo hace facil de extender.
+
+---
+
+### Ejercicio 02 — Sistema de Notificaciones Multicanal
+
+> Cuando un pedido cambia de estado (pendiente → enviado → entregado), el sistema notifica por correo, SMS, WhatsApp y push. No todos los usuarios tienen activos los mismos canales. Cada canal tiene su propia forma de construir y formatear el mensaje.
+
+| Observer | Factory Method |
+| --------- | --------- |
+| Observer desacopla el pedido de los canales. El Pedido es el Subject. EmailNotifier, SmsNotifier y PushNotifier son Observers. Agregar un canal nuevo no modifica el Pedido. | Factory Method crea el mensaje correcto para cada canal. EmailMessageFactory genera HTML. SmsMessageFactory genera texto plano de 160 chars. PushMessageFactory genera payload JSON. |
+
+**Diagrama de clases:**
+
+![](src\main\dosw\semana_4\ejercicio_2\DOSW-T4-E2.png)
+
+**Código implementado. Clases relevantes:**
+
+```java
+public class Order {
+    
+    private List<NotificationObserver> subscribers;
+    private String state;
+
+    public Order(String state) {
+        this.state = state;
+        this.subscribers = new ArrayList<>();
+    }
+
+    public void subscribe(NotificationObserver observer) {
+        subscribers.add(observer);
+    }
+
+    public void unsubscribe(NotificationObserver observer) {
+        subscribers.remove(observer);
+    }
+
+    public void changeState(String state) {
+        this.state = state;
+        OrderEvent event = new OrderEvent(state);
+        notifyObservers(event);
+    }
+
+    public void printOrderState() {
+        System.out.println("El estado de la orden es: " + state);
+    }
+
+    private void notifyObservers(OrderEvent event) {
+        subscribers.stream().forEach(s -> s.notify(event));
+    }
+}
+```
+```java
+public interface NotificationObserver {
+    void notify(OrderEvent event);
+}
+```
+```java
+public interface MessageFactory {
+    Message build(OrderEvent event);
+}
+```
+```java
+public interface Message {
+    void print();
+}
+```
+**Explicación:** Esta solucion es superior porque sin los patrones el pedido tendría que saber como armar el mensaje para cada canal y ademas a quien mandarselo, muchas responsabilidades. Con Observer el Pedido solo notifica a los observers y ya. Con Factory se asegura que se cree el mensaje correcto para cada canal. Es facil de extender porque si se agrega otro tipo de mensaje solo se crea el Observer y la Factory nueva, sin tener que tocar nada mas de lo que ya existe.
+
+---
+
+### Ejercicio 03 — Sistema de Reportes Empresariales
+
+> La empresa genera reportes en PDF, Excel y CSV. Todos siguen los mismos 4 pasos: obtener datos → procesar información → aplicar formato → exportar archivo. Pero cada formato implementa "aplicar formato" y "exportar" de forma diferente. Además, el sistema decide dinámicamente qué tipo de reporte crear.
+
+| Template Method | Factory Method |
+| --------- | --------- |
+| Template Method define la estructura del algoritmo en la clase base ReportGenerator con un método final generate() que llama en orden los 4 pasos. Las subclases sobreescriben solo los pasos variables (applyFormat, export). | Factory Method crea la instancia correcta según la solicitud. ReportFactory.create('PDF') retorna PdfReport. ReportFactory.create('CSV') retorna CsvReport. El cliente no instancia directamente. |
+
+**Diagrama de clases:**
+
+![](src\main\dosw\semana_4\ejercicio_3\DOSW-T4-E3.png)
+
+**Código implementado. Clases relevantes:**
+
+```java
+public class ReportFactory {
+
+    public static ReportGenerator create(String format) {
+        if (format.equalsIgnoreCase("PDF")) {
+            return new PdfReport();
+        } else if (format.equalsIgnoreCase("Excel")) {
+            return new ExcelReport();
+        } else if (format.equalsIgnoreCase("Cav")) {
+            return new CavReport();
+        } else {
+            throw new IllegalArgumentException("Formato no disponible");
+        }
+    }
+}
+```
+```java
+public abstract class ReportGenerator {
+    
+    public final void generate() {
+        fetchData();
+        processData();
+        applyFormat();
+        exportFile();
+    }
+
+    public void fetchData() {
+        System.out.println("Obteniendo Datos");
+    }
+
+    public void processData() {
+        System.out.println("Procesando Informacion");
+    }
+
+    public abstract void applyFormat();
+    public abstract void exportFile();
+}
+```
+```java
+public class PdfReport extends ReportGenerator {
+
+    @Override
+    public void applyFormat() {
+        System.out.println("Aplicando formato de PDF");
+    }
+
+    @Override
+    public void exportFile() {
+        System.out.println("Exportando archivo como PDF");
+    }
+
+}
+```
+```java
+public class Main {
+    
+    public static void main(String[] args) {
+        
+        ReportGenerator report = ReportFactory.create("PDF");
+        report.generate();
+    }
+}
+```
+**Explicación:** La solucion es superior porque con Template Method el metodo generate() final estamos definiendo una estructura fija con los 4 pasos, y las subclases solo se preocupan por lo que en verdad cambia. Y como la Factory decide que reporte crear el cliente solo pide "PDF" y ya.
+
+---
+
+### Ejercicio 04 — Plataforma de Videojuegos — Personajes
+
+> Un videojuego crea guerreros, magos y arqueros. Cada personaje puede tener habilidades especiales, armadura, arma y mejoras temporales (escudo de hielo, velocidad extra, invisibilidad). El personaje se construye al inicio de la partida, pero sus poderes pueden aumentar dinámicamente durante el juego.
+
+| Builder | Decorator |
+| --------- | --------- |
+| Builder construye el personaje paso a paso al inicio. WarriorBuilder permite setArmor().setWeapon().setSkill(). El Director puede construir arquetipos predefinidos (guerrero élite, mago de fuego). Evita constructores con 10 parámetros. | Decorator agrega poderes dinámicamente sin modificar la clase base del personaje. ShieldDecorator, SpeedDecorator e InvisibilityDecorator envuelven el personaje y añaden comportamiento en runtime. |
+
+**Diagrama de clases:**
+
+![](src\main\dosw\semana_4\ejercicio_4\DOSW-T4-E4.png)
+
+**Código implementado. Clases relevantes:**
+
+```java
+public class WarriorBuilder {
+
+    private String armor;
+    private String skill;
+    private String weapon;
+
+    public void reset() {
+        this.armor = "ninguna";
+        this.skill = "ninguna";
+        this.weapon = "ninguna";
+    }
+
+    public WarriorBuilder setArmor(String armor) {
+        this.armor = armor;
+        return this;
+    }
+
+    public WarriorBuilder setSkill(String skill) {
+        this.skill = skill;
+        return this;
+    }
+
+    public WarriorBuilder setWeapon(String weapon) {
+        this.weapon = weapon;
+        return this;
+    }
+
+    public Character build() {
+        return new BaseCharacter(armor, skill, weapon);
+    }
+}
+```
+```java
+public class BaseCharacter implements Character {
+
+    private String armor;
+    private String skill;
+    private String weapon;
+
+    public BaseCharacter(String armor, String skill, String weapon) {
+        this.armor = armor;
+        this.skill = skill;
+        this.weapon = weapon;
+    }
+
+    @Override
+    public void attack() {
+        System.out.println("ataque base");
+    }
+
+    public String getArmor() {
+        return armor;
+    }
+
+    public String getSkill() {
+        return skill;
+    }
+
+    public String getWeapon() {
+        return weapon;
+    }
+}
+```
+```java
+public abstract class BoostDecorator implements Character {
+
+    protected Character wrappedCharacter;
+    
+    public BoostDecorator(Character wrapped) {
+        this.wrappedCharacter = wrapped;
+    }
+}
+```
+```java
+public class Main {
+
+    public static void main(String[] args) {
+
+        WarriorBuilder builder = new WarriorBuilder();
+        Character warrior = builder.setArmor("steel")
+                                   .setWeapon("sword")
+                                   .setSkill("rage")
+                                   .build();
+
+        Character powered = new ShieldDecorator(
+            new SpeedDecorator(warrior));
+
+        powered.attack();
+    }
+}
+```
+**Explicación:** Es superior porque sin Builder acabariamos con un constructor gigante lleno de parametros. Y sin Decorator cada combinacion de poderes tocaria crear una subclase nueva. Con Builder el personaje se arma paso a paso y con Decorator los poderes envuelven a la clase base y se pueden quitar facilmente.
+
+---
+
+### Ejercicio 05 — Integración con Sistema Bancario Antiguo
+
+> El sistema moderno usa PaymentProcessor con métodos modernos. El banco antiguo expone LegacyBankService con métodos incompatibles (executeTransaction, verifyBalance en centavos). Además, usar LegacyBankService directamente requiere 8 pasos de inicialización que los desarrolladores no deberían conocer.
+
+| Adapter | Facade |
+| --------- | --------- |
+| Adapter hace que LegacyBankService sea compatible con la interfaz PaymentProcessor. LegacyBankAdapter implementa PaymentProcessor e internamente traduce las llamadas: amount → cents, pay() → executeTransaction(). | Facade expone un método simple procesarPago(monto) que internamente orquesta los 8 pasos de inicialización y uso del LegacyBankService (o del Adapter). Los desarrolladores usan la Facade y no conocen los detalles. |
+
+**Diagrama de clases:**
+
+![](src\main\dosw\semana_4\ejercicio_5\DOSW-T4-E5.png)
+
+**Código implementado. Clases relevantes:**
+
+```java
+public class BankFacade {
+    public void processPayment(double amount) {
+        //Métodos para inicializar conexión, sesión y contexto
+        LegacyBankService context = new LegacyBankService();
+        PaymentProcessor adapter = new LegacyBankAdapter(context);
+        adapter.pay(amount);
+    }
+}
+```
+```java
+public interface PaymentProcessor {
+    void pay(double amount);
+}
+```
+```java
+public class LegacyBankAdapter implements PaymentProcessor {
+
+    private final LegacyBankService legacy;
+
+    public LegacyBankAdapter(LegacyBankService legacy) {
+        this.legacy = legacy;
+    }
+
+    @Override
+    public void pay(double amount) {
+        int cents = (int) (amount * 100);
+        legacy.executeTransaction("ACC", cents);
+    }
+}
+```
+```java
+public class LegacyBankService {
+    
+    public void executeTransaction(String accountType, int amount) {
+        System.out.println("Ejecutando transaccion en LegacyBankService...");
+        System.out.printf("Monto: %d centavos   Cuenta: %s", amount, accountType);
+    }
+}
+```
+**Explicación:** Es mejor que una solucion sin patrones porque con Adapter se traduce la interfaz vieja a la moderna sin que el sistema tenga que interactuar directamente con LegacyBankService, y con Facade se esconde toda esa complejidad detras de un solo metodo simple.
+
+---
+
+### Ejercicio 06 — Motor de Recomendaciones
+
+> Una plataforma tipo Netflix usa algoritmos de recomendación por género, historial, popularidad y similitud con otros usuarios. El usuario puede cambiar sus preferencias de recomendación en cualquier momento. Cuando esto ocurre, la página principal, las notificaciones y la lista de "sugeridos" deben actualizarse automáticamente.
+
+| Strategy | Observer |
+| --------- | --------- |
+| Strategy permite intercambiar el algoritmo de recomendación en tiempo de ejecución. GenreStrategy, HistoryStrategy, PopularityStrategy y SimilarityStrategy implementan RecommendationAlgorithm. El motor cambia de algoritmo sin reiniciar. | Observer notifica automáticamente a todos los componentes cuando cambian las preferencias. HomePageComponent, NotificationService y SuggestedListComponent son Observers del evento "preferencias cambiadas". |
+
+**Diagrama de clases:**
+
+![](src\main\dosw\semana_4\ejercicio_6\DOSW-T4-E6.png)
+
+**Código implementado. Clases relevantes:**
+
+```java
+public class User {
+    
+    private RecommendationAlgorithm strategy;
+    private List<PreferenceObserver> subscribers;
+
+    public User(RecommendationAlgorithm strategy) {
+        this.strategy = strategy;
+        this.subscribers = new ArrayList<>();
+    }
+
+    public void subscribe(PreferenceObserver observer) {
+        subscribers.add(observer);
+    }
+
+    public void unsubscribe(PreferenceObserver observer) {
+        subscribers.remove(observer);
+    }
+
+    public void changePreferences(RecommendationAlgorithm preference) {
+        this.strategy = preference;
+        notifySubscribers();
+    }
+
+    private void notifySubscribers() {
+        subscribers.stream().forEach(s -> s.onPreferenceChanged(this));
+    }
+
+    public RecommendationAlgorithm getRecommendationAlgorithm() {
+        return this.strategy;
+    }
+}
+```
+```java
+public interface RecommendationAlgorithm {
+    List<Content> recommend(User user);
+}
+```
+```java
+public interface PreferenceObserver {
+    void onPreferenceChanged(User user);
+}
+```
+```java
+public class Main {
+    public static void main(String[] args) {
+
+        PreferenceObserver homePage = new HomePageComponent();
+        PreferenceObserver suggeredList = new SuggeredListComponent();
+        PreferenceObserver notificationService = new NotificationService();
+
+        User user = new User(new GenreStrategy());
+        user.subscribe(homePage);
+        user.subscribe(suggeredList);
+        user.subscribe(notificationService);
+
+        user.changePreferences(new HistoryStrategy());
+
+        user.unsubscribe(notificationService);
+        user.changePreferences(new PopularityStrategy());
+    }
+}
+```
+**Explicación:** Superior a una solucion sin patrones poruqe sin strategy el encargado de las recomendaciones tendria un monton de ifs para decidir que algoritmo usar. Sin Observer cada vez que el usuario cambia de preferencia tocaria ir actualizando todo manualmente. Con Strategy el algoritmo se intercambia de manera facil y con observer todo se actualiza apenas cambian las preferencias.
+
+---
+
+### Ejercicio 07 — Flujo de Aprobación de Documentos
+
+> Los documentos pasan por: revisión del autor, revisión del líder, revisión jurídica, revisión financiera y aprobación final. No todos pasan por todas las etapas. Además, el documento tiene estados propios: borrador, en revisión, aprobado, rechazado. La transición de estado depende del resultado de cada handler de la cadena.
+
+| Chain of Responsibility | State |
+| --------- | --------- |
+| Chain of Responsibility encadena los validadores. Cada handler (AutorHandler, LiderHandler, JuridicoHandler) decide si procesa el documento o lo pasa al siguiente. La cadena puede configurarse distinto según el tipo de documento. | State maneja las transiciones de estado del documento. DraftState, InReviewState, ApprovedState, RejectedState. Cada estado sabe a qué estado puede transicionar y qué operaciones permite. Elimina los switch/if de estado. |
+
+**Diagrama de clases:**
+
+![](src\main\dosw\semana_4\ejercicio_7\DOSW-T4-E7.png)
+
+**Código implementado. Clases relevantes:**
+
+```java
+public abstract class DocumentHandler {
+    
+    private DocumentHandler next;
+
+    public DocumentHandler setNext(DocumentHandler handler) {
+        this.next = handler;
+        return handler;
+    }
+
+    public void handle(Document doc) {
+        if (canHandle(doc)) {
+            process(doc);
+        } else if (next != null) {
+            next.handle(doc);
+        }
+    }
+
+    public abstract boolean canHandle(Document doc);
+    public abstract void process(Document doc);
+}
+```
+```java
+public class Document {
+    
+    private DocumentState state;
+
+    public void approve() {
+        if (state == null) {
+            System.out.println("Documento pasado a estado de revision");
+            state = new InReviewState();
+        }
+        state.approve(this);
+    }
+
+    public void reject() {
+        state.reject(this);
+    }
+
+    public void changeState(DocumentState state) {
+        this.state = state;
+    }
+
+    public DocumentState getState() {
+        return state;
+    }
+}
+```
+```java
+public interface DocumentState {
+    
+    void approve(Document doc);
+    void reject(Document doc);
+}
+```
+```java
+public class Main {
+    public static void main(String[] args) {
+        
+        DocumentHandler handler = new AutorHandler();
+        handler.setNext(new LiderHandler())
+               .setNext(new FinancieroHandler())
+               .setNext(new JuridicoHandler());
+
+        Document doc = new Document();
+
+        handler.handle(doc);
+    }
+}
+```
+**Explicación:** Con chain of responsability cada handler solo se hace su parte y decide si pasa al siguiente y con state cada estado sabe que transiciones puede hacer. El documento no sabe en que estado esta pero su estado sabe que hay que hacer.
+
+---
+
+### Ejercicio 08 — Sistema de Pedidos en Restaurante
+
+> El cliente construye una hamburguesa eligiendo ingredientes, tamaño, tipo de pan, acompañamientos y extras. Después de confirmado el pedido, el sistema debe notificar a cocina (preparar), a facturación (generar cuenta) y al domiciliario (preparar ruta) sin que el pedido los conozca directamente.
+
+| Builder | Observer |
+| --------- | --------- |
+| Builder construye el pedido personalizado paso a paso. OrderBuilder permite setSize().setMeat().setToppings().addSide(). El pedido resultante es inmutable una vez construido. Evita el constructor caótico con todos los ingredientes. | Observer notifica a los subsistemas cuando el pedido se confirma. KitchenService, BillingService y DeliveryService son Observers. El pedido solo hace pedido.confirm() — no sabe a quién avisar. |
+
+**Diagrama de clases:**
+
+![](src\main\dosw\semana_4\ejercicio_8\DOSW-T4-E8.png)
+
+**Código implementado. Clases relevantes:**
+
+```java
+public class OrderBuilder {
+    
+    private Size size;
+    private Meat meat;
+    private List<String> toppings;
+    private List<String> sides;
+
+    public OrderBuilder() {
+        this.toppings = new ArrayList<>();
+        this.sides = new ArrayList<>();
+    }
+
+    public OrderBuilder setSize(Size size) {
+        this.size = size;
+        return this;
+    }
+
+    public OrderBuilder setMeat(Meat meat) {
+        this.meat = meat;
+        return this;
+    }
+
+    public OrderBuilder addTopping(String topping) {
+        toppings.add(topping);
+        return this;
+    }
+
+    public OrderBuilder addSide(String side) {
+        sides.add(side);
+        return this;
+    }
+
+    public Order build() {
+        return new Order(size, meat, toppings, sides);
+    }
+}
+```
+```java
+public class Order {
+    
+    private final Size size;
+    private final Meat meat;
+    private final List<String> toppings;
+    private final List<String> sides;
+
+    private List<Observer> observers;
+    
+    public Order(Size size, Meat meat, List<String> toppings, List<String> sides) {
+        this.size = size;
+        this.meat = meat;
+        this.toppings = toppings;
+        this.sides = sides;
+        observers = new ArrayList<>();
+    }
+
+    public void addObserver(Observer observer) {
+        observers.add(observer);
+    }
+
+    public void removeObserver(Observer observer) {
+        observers.remove(observer);
+    }
+
+    public void confirm() {
+        System.out.println("Pedido confirmado:");
+        System.out.println("    Tamaño: " + size);
+        System.out.println("    Carne: " + meat);
+        System.out.println("    Toppings: " + toppings.stream().collect(Collectors.joining(", ")));
+        System.out.println("    Sides: " + sides.stream().collect(Collectors.joining(", ")));
+        System.out.println();
+        observers.forEach(o -> o.onOrderConfirmed());
+    }
+    
+}
+```
+```java
+public interface Observer {
+    void onOrderConfirmed();
+}
+```
+```java
+public class Main {
+    public static void main(String[] args) {
+        Order order = new OrderBuilder()
+            .setSize(Size.LARGE)
+            .setMeat(Meat.DOUBLE_BEEF)
+            .addTopping("queso")
+            .addTopping("lechuga")
+            .addSide("papas")
+            .addSide("gaseosa")
+            .build();
+
+        order.addObserver(new KitchenService());
+        order.addObserver(new BillingService());
+        order.addObserver(new DeliveryService());
+        order.confirm();
+    }
+}
+```
+**Explicación:** Con builder el pedido es facil de construir como se muestra en el main, y con observer el pedido solo confirma sin saber que servicios estan esperando la confirmacion.
+
+---
+
+### Ejercicio 09 — Sistema de Autenticación Empresarial
+
+> La empresa tiene 5 métodos de autenticación: usuario/contraseña, Google, Microsoft, token empresarial y biometría. Según el tipo de usuario, el sistema selecciona el mecanismo correcto. Una vez autenticado, la solicitud pasa por: validación de credenciales, validación de permisos, validación de ubicación y validación de horario laboral.
+
+| Strategy | Chain of Responsibility |
+| --------- | --------- |
+| Strategy selecciona el mecanismo de autenticación. PasswordStrategy, GoogleStrategy, BiometricStrategy implementan AuthStrategy. El AuthService recibe la estrategia correcta según el tipo de usuario y llama authenticate(). | Chain of Responsibility procesa las validaciones en secuencia. CredentialValidator → PermissionValidator → LocationValidator → TimeValidator. Cada uno decide si pasa al siguiente o lanza un AccessDeniedException. |
+
+**Diagrama de clases:**
+
+![](src\main\dosw\semana_4\ejercicio_9\DOSW-T4-E9.png)
+
+**Código implementado. Clases relevantes:**
+
+```java
+public interface AuthStrategy {
+
+    public AuthResult authenticate(Credentials credentials);
+}
+```
+```java
+public abstract class BaseValidator implements Validator {
+    private Validator next;
+
+    @Override
+    public Validator setNext(Validator validator) {
+        this.next = validator;
+        return validator;
+    }
+
+    @Override
+    public void validate(AuthResult authentication) throws AccessDeniedException {
+        if (next != null) {
+            next.validate(authentication);
+        } else {
+            System.out.println("\nSe ha validado correctamente.");
+        }
+    }
+}
+```
+```java
+public class AuthService {
+    
+    private AuthStrategy strategy;
+
+    public AuthService(AuthStrategy strategy) {
+        this.strategy = strategy;
+    }
+
+    public AuthResult authenticate(Credentials credentials) {
+        return strategy.authenticate(credentials);
+    }
+
+    public void setStrategy(AuthStrategy strategy) {
+        this.strategy = strategy;
+    }
+    
+}
+```
+```java
+public class Main {
+    
+    public static void main(String[] args) {
+        AuthService service = new AuthService(new BiometricStrategy());
+        Validator chain = new CredentialValidator();
+
+        chain.setNext(new PermissionValidator())
+            .setNext(new LocationValidator())
+            .setNext(new TimeValidator());
+
+        AuthResult result = service.authenticate(new Credentials("CatrachoINXS", "contraseña123"));
+        
+        try {
+            chain.validate(result);
+        } catch (AccessDeniedException e) {
+            System.out.println("\nACCESS DENIED EXCEPTION");
+            e.printStackTrace();
+        }
+    }
+}
+```
+**Explicación:** Es superior porque sin sdtrategy el authservice tendria que decidir con condicionales cual metodo de autenticacion usar segun el usuario y sin chain of responsibility las validaciones de permisos, ubicacion y horario quedarian todas en un metodo gigante, dificil de mantener y de probar por separado.
+
+---
+
+### Ejercicio 10 — Aplicación de Edición de Imágenes
+
+> La app permite aplicar filtros acumulativos: blanco y negro, sepia, brillo, contraste y reducción de ruido. El usuario puede aplicar varios filtros sobre la misma imagen en cualquier orden. Además, cada acción debe poder deshacerse de manera individual (no solo deshacer la última).
+
+| Decorator | Command |
+| --------- | --------- |
+| Decorator aplica filtros de forma acumulativa. GrayscaleDecorator, SepiaDecorator, BrightnessDecorator envuelven la imagen. Se pueden apilar en cualquier orden. Agregar un filtro nuevo no modifica los existentes. | Command encapsula cada operación del usuario como un objeto (ApplyFilterCommand, RemoveFilterCommand). El historial de comandos permite undo individual. El comando tiene execute() y undo(). |
+
+**Diagrama de clases:**
+
+![](src\main\dosw\semana_4\ejercicio_10\DOSW-T4-E10.png)
+
+**Código implementado. Clases relevantes:**
+
+```java
+public class BaseImage implements Image {
+
+    @Override
+    public BufferedImage render() {
+        return new BufferedImage();
+    }
+    
+}
+```
+```java
+public class ImageDecorator implements Image {
+
+    protected Image wrappee;
+
+    public ImageDecorator(Image wrappee) {
+        this.wrappee = wrappee;
+    }
+
+    @Override
+    public BufferedImage render() {
+        return wrappee.render();
+    }
+
+    public Image getWrappee() {
+        return wrappee;
+    }
+}
+```
+```java
+public interface ImageCommand {
+    
+    public void execute();
+    public void undo();
+}
+```
+```java
+public class Main {
+    public static void main(String[] args) {
+        
+        Image image = new BaseImage();
+
+        ApplyFilterCommand applySepia = new ApplyFilterCommand(image, "sepia");
+        ApplyFilterCommand applyBrightness = new ApplyFilterCommand(applySepia.getImage(), "brightness");
+        applySepia.execute();
+        applyBrightness.execute();
+
+        applyBrightness.undo();
+        
+    }
+}
+```
+**Explicación:** Sin decorator cada combinacion de filtros (sepia+brillo+contraste, etc) tocaria crear una clase nueva, si hicieramos todas las combinaciones vemos que seria horrible de mantener.
