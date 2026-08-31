@@ -305,7 +305,7 @@ public class Pokemon {
 ```
 **Captura de ejecución:**
 
-![](src\main\dosw\semana_2\pokemon\CapturasPantalla\captura_ejercicio_1.png)
+![](./src/main/dosw/semana_2/pokemon/CapturasPantalla/captura_ejercicio_1.png)
 
 **Explicación:** Se usa un `filter()` para obtener unicamente los tipo Fuego y un `map()` para obtener los nombres de los pokemones.
 
@@ -338,7 +338,7 @@ public class Ejercicio2 {
 ```
 **Captura de ejecución:**
 
-![](src\main\dosw\semana_2\pokemon\CapturasPantalla\captura_ejercicio_2.png)
+![](./src/main/dosw/semana_2/pokemon/CapturasPantalla/captura_ejercicio_2.png)
 
 **Explicación:** Se usa un `map()` transformar los nombres a mayusculas usando `toUpperCase()`.
 
@@ -366,7 +366,7 @@ public class Ejercicio3 {
 ```
 **Captura de ejecución:**
 
-![](src\main\dosw\semana_2\pokemon\CapturasPantalla\captura_ejercicio_3.png)
+![](./src/main/dosw/semana_2/pokemon/CapturasPantalla/captura_ejercicio_3.png)
 
 **Explicación:** Se usa `reduce()` junto con `Integer::sum` para sumar los elementos de la lista.
 
@@ -401,7 +401,7 @@ public class Ejercicio4 {
 ```
 **Captura de ejecución:**
 
-![](src\main\dosw\semana_2\pokemon\CapturasPantalla\captura_ejercicio_4.png)
+![](./src/main/dosw/semana_2/pokemon/CapturasPantalla/captura_ejercicio_4.png)
 
 **Explicación:** Se usa la función max() y se comparan los niveles de los pokemones mediante una lambda.
 
@@ -436,7 +436,7 @@ public class Ejercicio5 {
 ```
 **Captura de ejecución:**
 
-![](src\main\dosw\semana_2\pokemon\CapturasPantalla\captura_ejercicio_5.png)
+![](./src/main/dosw/semana_2/pokemon/CapturasPantalla/captura_ejercicio_5.png)
 
 **Explicación:** Se usa un `filter()` para escoger los pokemon con nivel mayor a 80 y despues se usa `count()`.
 
@@ -464,7 +464,7 @@ public class Ejercicio6 {
 ```
 **Captura de ejecución:**
 
-![](src\main\dosw\semana_2\pokemon\CapturasPantalla\captura_ejercicio_6.png)
+![](./src/main/dosw/semana_2/pokemon/CapturasPantalla/captura_ejercicio_6.png)
 
 **Explicación:** Se usa un `distinct()` en el stream para remover los elementos duplicados.
 
@@ -490,7 +490,7 @@ public class Ejercicio7 {
 ```
 **Captura de ejecución:**
 
-![](src\main\dosw\semana_2\pokemon\CapturasPantalla\captura_ejercicio_7.png)
+![](./src/main/dosw/semana_2/pokemon/CapturasPantalla/captura_ejercicio_7.png)
 
 **Explicación:** Se usa un `sorted()` en el stream para ordenar los nombres de los pokemon.
 
@@ -527,7 +527,7 @@ public class Ejercicio8 {
 ```
 **Captura de ejecución:**
 
-![](src\main\dosw\semana_2\pokemon\CapturasPantalla\captura_ejercicio_8.png)
+![](./src/main/dosw/semana_2/pokemon/CapturasPantalla/captura_ejercicio_8.png)
 
 **Explicación:** Se usa un `filter()` en el stream para obtener únicamente los que pueden evolucionar y también un map para dejar solo el nombre.
 
@@ -565,7 +565,7 @@ public class Ejercicio9 {
 ```
 **Captura de ejecución:**
 
-![](src\main\dosw\semana_2\pokemon\CapturasPantalla\captura_ejercicio_9.png)
+![](./src/main/dosw/semana_2/pokemon/CapturasPantalla/captura_ejercicio_9.png)
 
 **Explicación:** Se usa un `filter()` para obtener los que tengan poder mayor a 500 y un map para guardar la informacion en la lista.
 
@@ -601,7 +601,7 @@ public class Ejercicio10 {
 ```
 **Captura de ejecución:**
 
-![](src\main\dosw\semana_2\pokemon\CapturasPantalla\captura_ejercicio_10.png)
+![](./src/main/dosw/semana_2/pokemon/CapturasPantalla/captura_ejercicio_10.png)
 
 **Explicación:** Se usa un `map()` para obtener el nombre de cada pokemon y despues se guarda en una lista.
 
@@ -639,7 +639,7 @@ public class Ejercicio11 {
 
 **Captura de ejecución:**
 
-![](src\main\dosw\semana_2\pokemon\CapturasPantalla\captura_ejercicio_11.png)
+![](./src/main/dosw/semana_2/pokemon/CapturasPantalla/captura_ejercicio_11.png)
 
 **Explicación:** Se usa `mapToDouble()` para extraer el poder de combate de cada pokemon y luego con `average()` sacamos el promedio facil.
 
@@ -675,7 +675,7 @@ public class Ejercicio12 {
 
 **Captura de ejecución:**
 
-![](src\main\dosw\semana_2\pokemon\CapturasPantalla\captura_ejercicio_12.png)
+![](./src/main/dosw/semana_2/pokemon/CapturasPantalla/captura_ejercicio_12.png)
 
 **Explicación:** Con el metodo `max()` comparamos el poder de combate para encontrar el mas fuerte y sacamos el mensaje formateado.
 
@@ -711,7 +711,7 @@ public class Ejercicio13 {
 
 **Captura de ejecución:**
 
-![](src\main\dosw\semana_2\pokemon\CapturasPantalla\captura_ejercicio_13.png)
+![](./src/main/dosw/semana_2/pokemon/CapturasPantalla/captura_ejercicio_13.png)
 
 **Explicación:** Se agrupan los pokemones usando `groupingBy()` por su tipo y despues imprimo la lista de nombres por cada tipo.
 
@@ -748,7 +748,7 @@ public class Ejercicio14 {
 
 **Captura de ejecución:**
 
-![](src\main\dosw\semana_2\pokemon\CapturasPantalla\captura_ejercicio_14.png)
+![](./src/main/dosw/semana_2/pokemon/CapturasPantalla/captura_ejercicio_14.png)
 
 **Explicación:** Igual al anterior pero esta vez usando `groupingBy()` para agruparlos segun la region a la que pertenecen.
 
@@ -784,7 +784,7 @@ public class Ejercicio15 {
 
 **Captura de ejecución:**
 
-![](src\main\dosw\semana_2\pokemon\CapturasPantalla\captura_ejercicio_15.png)
+![](./src/main/dosw/semana_2/pokemon/CapturasPantalla/captura_ejercicio_15.png)
 
 **Explicación:** Usamos `max()` comparando la cantidad de medallas para saber cual es el entrenador que mas tiene.
 
@@ -823,7 +823,7 @@ public class Ejercicio16 {
 
 **Captura de ejecución:**
 
-![](src\main\dosw\semana_2\pokemon\CapturasPantalla\captura_ejercicio_16.png)
+![](./src/main/dosw/semana_2/pokemon/CapturasPantalla/captura_ejercicio_16.png)
 
 **Explicación:** Se filtra con un `filter()` los entrenadores con mas de 5 medallas y armamos un string con su nombre y medallas.
 
@@ -885,7 +885,7 @@ public class Ejercicio17 {
 
 **Captura de ejecución:**
 
-![](src\main\dosw\semana_2\pokemon\CapturasPantalla\captura_ejercicio_17.png)
+![](./src/main/dosw/semana_2/pokemon/CapturasPantalla/captura_ejercicio_17.png)
 
 **Explicación:** Se calcula la suma del poder de todo el equipo de cada entrenador y sacamos el maximo con un `Comparator.comparingDouble()`.
 
@@ -932,7 +932,7 @@ public class Ejercicio18 {
 
 **Captura de ejecución:**
 
-![](src\main\dosw\semana_2\pokemon\CapturasPantalla\captura_ejercicio_18.png)
+![](./src/main/dosw/semana_2/pokemon/CapturasPantalla/captura_ejercicio_18.png)
 
 **Explicación:** Ordenamos con `sorted()` de mayor a menor poder de combate, nos quedamos con los primeros 5 usando `limit(5)` y los mostramos en lista.
 
@@ -962,7 +962,7 @@ public class Ejercicio18 {
 
 **Diagrama de clases:**
 
-![](src\main\dosw\semana_4\ejercicio_1\DOSW-T4-E1.png)
+![](./src/main/dosw/semana_4/ejercicio_1/DOSW-T4-E1.png)
 
 **Código implementado. Clases relevantes:**
 
@@ -1025,7 +1025,7 @@ public class Checkout {
 
 **Diagrama de clases:**
 
-![](src\main\dosw\semana_4\ejercicio_2\DOSW-T4-E2.png)
+![](./src/main/dosw/semana_4/ejercicio_2/DOSW-T4-E2.png)
 
 **Código implementado. Clases relevantes:**
 
@@ -1092,7 +1092,7 @@ public interface Message {
 
 **Diagrama de clases:**
 
-![](src\main\dosw\semana_4\ejercicio_3\DOSW-T4-E3.png)
+![](./src/main/dosw/semana_4/ejercicio_3/DOSW-T4-E3.png)
 
 **Código implementado. Clases relevantes:**
 
@@ -1173,7 +1173,7 @@ public class Main {
 
 **Diagrama de clases:**
 
-![](src\main\dosw\semana_4\ejercicio_4\DOSW-T4-E4.png)
+![](./src/main/dosw/semana_4/ejercicio_4/DOSW-T4-E4.png)
 
 **Código implementado. Clases relevantes:**
 
@@ -1283,7 +1283,7 @@ public class Main {
 
 **Diagrama de clases:**
 
-![](src\main\dosw\semana_4\ejercicio_5\DOSW-T4-E5.png)
+![](./src/main/dosw/semana_4/ejercicio_5/DOSW-T4-E5.png)
 
 **Código implementado. Clases relevantes:**
 
@@ -1341,7 +1341,7 @@ public class LegacyBankService {
 
 **Diagrama de clases:**
 
-![](src\main\dosw\semana_4\ejercicio_6\DOSW-T4-E6.png)
+![](./src/main/dosw/semana_4/ejercicio_6/DOSW-T4-E6.png)
 
 **Código implementado. Clases relevantes:**
 
@@ -1422,7 +1422,7 @@ public class Main {
 
 **Diagrama de clases:**
 
-![](src\main\dosw\semana_4\ejercicio_7\DOSW-T4-E7.png)
+![](./src/main/dosw/semana_4/ejercicio_7/DOSW-T4-E7.png)
 
 **Código implementado. Clases relevantes:**
 
@@ -1510,7 +1510,7 @@ public class Main {
 
 **Diagrama de clases:**
 
-![](src\main\dosw\semana_4\ejercicio_8\DOSW-T4-E8.png)
+![](./src/main/dosw/semana_4/ejercicio_8/DOSW-T4-E8.png)
 
 **Código implementado. Clases relevantes:**
 
@@ -1628,7 +1628,7 @@ public class Main {
 
 **Diagrama de clases:**
 
-![](src\main\dosw\semana_4\ejercicio_9\DOSW-T4-E9.png)
+![](./src/main/dosw/semana_4/ejercicio_9/DOSW-T4-E9.png)
 
 **Código implementado. Clases relevantes:**
 
@@ -1713,7 +1713,7 @@ public class Main {
 
 **Diagrama de clases:**
 
-![](src\main\dosw\semana_4\ejercicio_10\DOSW-T4-E10.png)
+![](./src/main/dosw/semana_4/ejercicio_10/DOSW-T4-E10.png)
 
 **Código implementado. Clases relevantes:**
 
