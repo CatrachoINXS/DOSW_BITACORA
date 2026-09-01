@@ -1,0 +1,11 @@
+package main.dosw.semana_4.ejercicio_2;
+
+public class PushNotifier implements NotificationObserver {
+
+    @Override
+    public void notify(OrderEvent event) {
+        MessageFactory factory = new PushMessageFactory();
+        Message message = factory.build(event);
+        message.print();
+    }
+}
